@@ -1,97 +1,95 @@
-\--- Day 7: No Space Left On Device ---
+\--- Day 7: The Sum of Its Parts ---
 ----------
 
-You can hear birds chirping and raindrops hitting leaves as the expedition proceeds. Occasionally, you can even hear much louder sounds in the distance; how big do the animals get out here, anyway?
+You find yourself standing on a snow-covered coastline; apparently, you landed a little off course. The region is too hilly to see the North Pole from here, but you do spot some Elves that seem to be trying to unpack something that washed ashore. It's quite cold out, so you decide to risk creating a paradox by asking them for directions.
 
-The device the Elves gave you has problems with more than just its communication system. You try to run a system update:
+"Oh, are you the search party?" Somehow, you can understand whatever Elves from the year 1018 speak; you assume it's [Ancient Nordic Elvish](/2015/day/6). Could the device on your wrist also be a translator? "Those clothes don't look very warm; take this." They hand you a heavy coat.
 
-```
-$ system-update --please --pretty-please-with-sugar-on-top
-Error: No space left on device
+"We do need to find our way back to the North Pole, but we have higher priorities at the moment. You see, believe it or not, this box contains something that will solve all of Santa's transportation problems - at least, that's what it looks like from the pictures in the instructions." It doesn't seem like they can read whatever language it's in, but you can: "Sleigh kit. Some assembly required."
 
-```
+"'Sleigh'? What a wonderful name! You must help us assemble this 'sleigh' at once!" They start excitedly pulling more parts out of the box.
 
-Perhaps you can delete some files to make space for the update?
-
-You browse around the filesystem to assess the situation and save the resulting terminal output (your puzzle input). For example:
+The instructions specify a series of *steps* and requirements about which steps must be finished before others can begin (your puzzle input). Each step is designated by a single letter. For example, suppose you have the following instructions:
 
 ```
-$ cd /
-$ ls
-dir a
-14848514 b.txt
-8504156 c.dat
-dir d
-$ cd a
-$ ls
-dir e
-29116 f
-2557 g
-62596 h.lst
-$ cd e
-$ ls
-584 i
-$ cd ..
-$ cd ..
-$ cd d
-$ ls
-4060174 j
-8033020 d.log
-5626152 d.ext
-7214296 k
+Step C must be finished before step A can begin.
+Step C must be finished before step F can begin.
+Step A must be finished before step B can begin.
+Step A must be finished before step D can begin.
+Step B must be finished before step E can begin.
+Step D must be finished before step E can begin.
+Step F must be finished before step E can begin.
 
 ```
 
-The filesystem consists of a tree of files (plain data) and directories (which can contain other directories or files). The outermost directory is called `/`. You can navigate around the filesystem, moving into or out of directories and listing the contents of the directory you're currently in.
-
-Within the terminal output, lines that begin with `$` are *commands you executed*, very much like some modern computers:
-
-* `cd` means *change directory*. This changes which directory is the current directory, but the specific result depends on the argument:
-  * `cd x` moves *in* one level: it looks in the current directory for the directory named `x` and makes it the current directory.
-  * `cd ..` moves *out* one level: it finds the directory that contains the current directory, then makes that directory the current directory.
-  * `cd /` switches the current directory to the outermost directory, `/`.
-
-* `ls` means *list*. It prints out all of the files and directories immediately contained by the current directory:
-  * `123 abc` means that the current directory contains a file named `abc` with size `123`.
-  * `dir xyz` means that the current directory contains a directory named `xyz`.
-
-Given the commands and output in the example above, you can determine that the filesystem looks visually like this:
+Visually, these requirements look like this:
 
 ```
-- / (dir)
-  - a (dir)
-    - e (dir)
-      - i (file, size=584)
-    - f (file, size=29116)
-    - g (file, size=2557)
-    - h.lst (file, size=62596)
-  - b.txt (file, size=14848514)
-  - c.dat (file, size=8504156)
-  - d (dir)
-    - j (file, size=4060174)
-    - d.log (file, size=8033020)
-    - d.ext (file, size=5626152)
-    - k (file, size=7214296)
+  -->A--->B--
+ /    \      \
+C      -->D----->E
+ \           /
+  ---->F-----
 
 ```
 
-Here, there are four directories: `/` (the outermost directory), `a` and `d` (which are in `/`), and `e` (which is in `a`). These directories also contain files of various sizes.
+Your first goal is to determine the order in which the steps should be completed. If more than one step is ready, choose the step which is first alphabetically. In this example, the steps would be completed as follows:
 
-Since the disk is full, your first step should probably be to find directories that are good candidates for deletion. To do this, you need to determine the *total size* of each directory. The total size of a directory is the sum of the sizes of the files it contains, directly or indirectly. (Directories themselves do not count as having any intrinsic size.)
+* Only *`C`* is available, and so it is done first.
+* Next, both `A` and `F` are available. *`A`* is first alphabetically, so it is done next.
+* Then, even though `F` was available earlier, steps `B` and `D` are now also available, and *`B`* is the first alphabetically of the three.
+* After that, only `D` and `F` are available. `E` is not available because only some of its prerequisites are complete. Therefore, *`D`* is completed next.
+* *`F`* is the only choice, so it is done next.
+* Finally, *`E`* is completed.
 
-The total sizes of the directories above can be found as follows:
+So, in this example, the correct order is *`CABDFE`*.
 
-* The total size of directory `e` is *584* because it contains a single file `i` of size 584 and no other directories.
-* The directory `a` has total size *94853* because it contains files `f` (size 29116), `g` (size 2557), and `h.lst` (size 62596), plus file `i` indirectly (`a` contains `e` which contains `i`).
-* Directory `d` has total size *24933642*.
-* As the outermost directory, `/` contains every file. Its total size is *48381165*, the sum of the size of every file.
+*In what order should the steps in your instructions be completed?*
 
-To begin, find all of the directories with a total size of *at most 100000*, then calculate the sum of their total sizes. In the example above, these directories are `a` and `e`; the sum of their total sizes is `*95437*` (94853 + 584). (As in this example, this process can count files more than once!)
+Your puzzle answer was `MNQKRSFWGXPZJCOTVYEBLAHIUD`.
 
-Find all of the directories with a total size of at most 100000. *What is the sum of the total sizes of those directories?*
+The first half of this puzzle is complete! It provides one gold star: \*
 
-To begin, [get your puzzle input](7/input).
+\--- Part Two ---
+----------
+
+As you're about to begin construction, four of the Elves offer to help. "The sun will set soon; it'll go faster if we work together." Now, you need to account for multiple people working on steps simultaneously. If multiple steps are available, workers should still begin them in alphabetical order.
+
+Each step takes 60 seconds plus an amount corresponding to its letter: A=1, B=2, C=3, and so on. So, step A takes `60+1=61` seconds, while step Z takes `60+26=86` seconds. No time is required between steps.
+
+To simplify things for the example, however, suppose you only have help from one Elf (a total of two workers) and that each step takes 60 fewer seconds (so that step A takes 1 second and step Z takes 26 seconds). Then, using the same instructions as above, this is how each second would be spent:
+
+```
+Second   Worker 1   Worker 2   Done
+   0        C          .        
+   1        C          .        
+   2        C          .        
+   3        A          F       C
+   4        B          F       CA
+   5        B          F       CA
+   6        D          F       CAB
+   7        D          F       CAB
+   8        D          F       CAB
+   9        D          .       CABF
+  10        E          .       CABFD
+  11        E          .       CABFD
+  12        E          .       CABFD
+  13        E          .       CABFD
+  14        E          .       CABFD
+  15        .          .       CABFDE
+
+```
+
+Each row represents one second of time. The Second column identifies how many seconds have passed as of the beginning of that second. Each worker column shows the step that worker is currently doing (or `.` if they are idle). The Done column shows completed steps.
+
+Note that the order of the steps has changed; this is because steps now take time to finish and multiple workers can begin multiple steps simultaneously.
+
+In this example, it would take *15* seconds for two workers to complete these steps.
+
+With *5* workers and the *60+ second* step durations described above, *how long will it take to complete all of the steps?*
 
 Answer:
 
-You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=%22No+Space+Left+On+Device%22+%2D+Day+7+%2D+Advent+of+Code+2022&url=https%3A%2F%2Fadventofcode%2Ecom%2F2022%2Fday%2F7&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+Although it hasn't changed, you can still [get your puzzle input](7/input).
+
+You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+Part+One+of+%22The+Sum+of+Its+Parts%22+%2D+Day+7+%2D+Advent+of+Code+2018&url=https%3A%2F%2Fadventofcode%2Ecom%2F2018%2Fday%2F7&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
