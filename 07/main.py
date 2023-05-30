@@ -6,7 +6,7 @@ import string
 
 # Maybe just remove instructions that are irrelevant and add element if in no more instructions
 
-file = open("test").read().split("\n")[:-1]
+file = open("input").read().split("\n")[:-1]
 
 instructions = set((line.split(" ")[1], line.split(" ")[7]) for line in file)
 undone_steps = set(string.ascii_uppercase)
@@ -23,17 +23,17 @@ while undone_steps:
     unlocked_steps |= undone_steps - {el[1] for el in instructions}
 
 print("Answer 1")
-print("".join(done_steps))
+# print("".join(done_steps))
 
 print("Part 2 " + 10 * "-")
 
 
 def get_timing(letter):
-    return ord(letter) - 64  # - 4
+    return ord(letter) - 4
 
 
 instructions = set((line.split(" ")[1], line.split(" ")[7]) for line in file)
-undone_steps = set(string.ascii_uppercase[:6])
+undone_steps = set(string.ascii_uppercase)
 unlocked_steps = undone_steps - {el[1] for el in instructions}
 
 done_steps = []
@@ -78,3 +78,4 @@ while undone_steps:
     print(f"unlocked_steps {unlocked_steps}")
 
 print("".join(done_steps))
+print(total_time)
