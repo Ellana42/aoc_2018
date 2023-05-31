@@ -38,7 +38,7 @@ unlocked_steps = undone_steps - {el[1] for el in instructions}
 
 done_steps = []
 total_time = 0
-workers = 2
+workers = 5
 doing = {}
 
 next_step = None
