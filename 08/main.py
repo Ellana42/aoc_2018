@@ -1,4 +1,4 @@
-numbers = open("test").read().strip("\n").split(" ")
+numbers = open("input").read().strip("\n").split(" ")
 numbers = [int(nb) for nb in numbers]
 
 
@@ -24,6 +24,16 @@ def sum_metadata(tree):
     return total
 
 
+def indexed_sum_metadata(tree):
+    total = 0
+    if len(tree[0]) == 0:
+        total += sum(tree[1])
+    for i, subnode in enumerate(tree[0]):
+        weight = tree[1].count(i + 1)
+        total += weight * indexed_sum_metadata(subnode)
+    return total
+
+
 tree, _ = parse_node(numbers)
 
-print(sum_metadata(tree))
+print(indexed_sum_metadata(tree))
