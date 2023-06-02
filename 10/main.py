@@ -28,10 +28,13 @@ def plot_coordinates(position):
 
 
 close = False
+time = 0
 while True:
     position += velocity
+    time += 1
     if not close and np.linalg.norm(position) < 3500:
         close = True
     if close:
         plot_coordinates(position)
+        print(time)
         sleep(0.3)
