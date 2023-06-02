@@ -55,8 +55,19 @@ Here are a few more examples:
 
 *What is the winning Elf's score?*
 
-To begin, [get your puzzle input](9/input).
+Your puzzle answer was `396136`.
+
+The first half of this puzzle is complete! It provides one gold star: \*
+
+\--- Part Two ---
+----------
+
+Amused by the speed of your answer, the Elves are curious:
+
+*What would the new winning Elf's score be if the number of the last marble were 100 times larger?*
 
 Answer:
 
-You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=%22Marble+Mania%22+%2D+Day+9+%2D+Advent+of+Code+2018&url=https%3A%2F%2Fadventofcode%2Ecom%2F2018%2Fday%2F9&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
+Although it hasn't changed, you can still [get your puzzle input](9/input).
+
+You can also [Shareon [Twitter](https://twitter.com/intent/tweet?text=I%27ve+completed+Part+One+of+%22Marble+Mania%22+%2D+Day+9+%2D+Advent+of+Code+2018&url=https%3A%2F%2Fadventofcode%2Ecom%2F2018%2Fday%2F9&related=ericwastl&hashtags=AdventOfCode) [Mastodon](javascript:void(0);)] this puzzle.
